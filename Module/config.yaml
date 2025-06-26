@@ -1,0 +1,64 @@
+# ------------------
+# 無人機連線設定
+# ------------------
+drone:
+  # SITL (模擬): udp:127.0.0.1:14550
+  # 實體無人機 (數傳): /dev/ttyUSB0
+  address: udp:127.0.0.1:14550
+  # address: /dev/ttyUSB0
+  baud: 57600
+  takeoff_altitude: 3.0 # (公尺)
+
+# ------------------
+# 網路串流設定
+# ------------------
+network:
+  video_listen_ip: "0.0.0.0"
+  video_listen_port: 5533
+  data_target_ip: "127.0.0.1" # 將姿態/座標資料傳送到的目標IP
+  data_target_port: 5522
+
+# ------------------
+# 攝影機參數
+# ------------------
+camera:
+  # 攝影機內參
+  matrix:
+    - [861.44, 0.0, 402.87]
+    - [0.0, 856.86, 262.20]
+    - [0.0, 0.0, 1.0]
+  dist_coeffs: [0.0, 0.0, 0.0, 0.0]
+  tilt_angle_deg: 56.0 # 相機向下的傾斜角度(度)
+
+# ------------------
+# 物件追蹤器設定
+# ------------------
+tracker:
+  # SiamMask 模型權重檔路徑
+  resume_path: '/home/simmon/Desktop/SiamMask/experiments/siammask_sharp/SiamMask_VOT.pth' 
+  # 提供 config_davis.json 的完整絕對路徑
+  config_path: '/home/simmon/Desktop/SiamMask/experiments/siammask_sharp/config_vot18.json' 
+  use_cpu: false
+
+# ------------------
+# 自主飛行控制器設定
+# ------------------
+control:
+  desired_distance_m: 2.0 # 期望與目標保持的距離(公尺)
+  max_velocity_ms: 1.3 # 前後最大速度
+  max_vertical_velocity_ms: 0.8 # 垂直最大速度
+  max_yaw_rate_rads: 1.0 # 偏航最大角速度
+
+  # PID 控制器增益
+  pid_yaw:
+    Kp: 0.0012
+    Ki: 0.0001
+    Kd: 0.0005
+  pid_height:
+    Kp: 0.001
+    Ki: 0.0
+    Kd: 0.0005
+  pid_distance:
+    Kp: 0.6
+    Ki: 0.05
+    Kd: 0.25
