@@ -106,7 +106,7 @@ class AutonomousController:
         logger.debug(f"Control Errors: x={error_x:.1f}, y={error_y:.1f}, dist_err={(self.pid_distance.setpoint - distance_to_target):.2f}")
         logger.debug(f"Control Outputs: vx={vx_cmd:.2f}, vz={vz_cmd:.2f}, yaw={yaw_rate_cmd:.2f}")
 
-        return {'vx': vx_cmd, 'vy': 0, 'vz': vz_cmd, 'yaw_rate': yaw_rate_cmd}
+        return {'vx': vx_cmd, 'vy': 0, 'vz': 0, 'yaw_rate': yaw_rate_cmd}
     
     def reset(self):
         """重置所有 PID 控制器。"""
