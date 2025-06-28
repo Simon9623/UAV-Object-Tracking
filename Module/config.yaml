@@ -7,7 +7,7 @@ drone:
   address: udp:127.0.0.1:14550
   # address: /dev/ttyUSB0
   baud: 57600
-  takeoff_altitude: 3.0 # (公尺)
+  takeoff_altitude: 1.9 # (公尺)
 
 # ------------------
 # 網路串流設定
@@ -44,21 +44,21 @@ tracker:
 # 自主飛行控制器設定
 # ------------------
 control:
-  desired_distance_m: 2.0 # 期望與目標保持的距離(公尺)
+  desired_distance_m: 1.0 # 期望與目標保持的距離(公尺)
   max_velocity_ms: 1.3 # 前後最大速度
   max_vertical_velocity_ms: 0.8 # 垂直最大速度
   max_yaw_rate_rads: 1.0 # 偏航最大角速度
 
   # PID 控制器增益
   pid_yaw:
-    Kp: 0.0012
-    Ki: 0.0001
-    Kd: 0.0005
+    Kp: 0.003
+    Ki: 0.0002
+    Kd: 0.001
   pid_height:
     Kp: 0.001
     Ki: 0.0
     Kd: 0.0005
   pid_distance:
-    Kp: 0.6
-    Ki: 0.05
-    Kd: 0.25
+    Kp: 0.68
+    Ki: 0.006
+    Kd: 0.33

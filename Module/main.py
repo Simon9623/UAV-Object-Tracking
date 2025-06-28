@@ -48,6 +48,7 @@ class AutoTrackApp:
         self.last_frame_time = time.time()
         self.fps = 0
 
+        self.current_distance = None
         self.log_file = None
         self.log_writer = None
         self._setup_log_file()
@@ -160,7 +161,6 @@ class AutoTrackApp:
         self.roi_handler.draw_selection(display_frame)
 
         # 繪製追蹤結果
-        # 繪製追蹤結果
         if self.tracker.is_tracking():
             state = self.tracker.state
             
@@ -187,6 +187,10 @@ class AutoTrackApp:
             f"Drone Connected: {'Yes' if self.drone.is_connected else 'No'}",
             f"Altitude: {self.drone.cached_altitude:.2f} m"
         ]
+        if self.current_distance is not None:
+            texts.append(f"Distance: {self.current_distance:.2f} m")
+        else:
+            texts.append("Distance: N/A")
         for i, text in enumerate(texts):
             cv2.putText(display_frame, text, (10, 30 + i * 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
         
@@ -249,6 +253,8 @@ class AutoTrackApp:
                         self.drone.cached_altitude
                     )
                     
+                    self.current_distance = distance
+                    
                     if distance is not None:
                         # 計算誤差
                         frame_width, frame_height = self.frame.shape[1], self.frame.shape[0]
@@ -281,6 +287,9 @@ class AutoTrackApp:
                     else:
                         self.drone.hover()
 
+                elif self.state != AppState.AUTONOMOUS_FLIGHT:
+                    self.current_distance = None
+                    
             # --- 顯示與更新 ---
             display_frame = np.zeros((480, 640, 3), dtype=np.uint8)
             if self.frame is not None:

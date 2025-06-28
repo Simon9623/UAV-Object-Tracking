@@ -94,7 +94,7 @@ class AutonomousController:
 
         # 計算控制量
         # 注意: vz 和 yaw_rate 的符號可能需要根據無人機的反應來調整
-        yaw_rate_cmd = self.pid_yaw.calculate(-error_x) # 讓 error_x 變小
+        yaw_rate_cmd = self.pid_yaw.calculate(error_x) # 讓 error_x 變小
         vz_cmd = self.pid_height.calculate(error_y)     # 讓 error_y 變小
         vx_cmd = self.pid_distance.calculate(distance_to_target)
 
@@ -106,7 +106,7 @@ class AutonomousController:
         logger.debug(f"Control Errors: x={error_x:.1f}, y={error_y:.1f}, dist_err={(self.pid_distance.setpoint - distance_to_target):.2f}")
         logger.debug(f"Control Outputs: vx={vx_cmd:.2f}, vz={vz_cmd:.2f}, yaw={yaw_rate_cmd:.2f}")
 
-        return {'vx': vx_cmd, 'vy': 0, 'vz': 0, 'yaw_rate': yaw_rate_cmd}
+        return {'vx': -vx_cmd, 'vy': 0, 'vz': 0, 'yaw_rate': yaw_rate_cmd}
     
     def reset(self):
         """重置所有 PID 控制器。"""
